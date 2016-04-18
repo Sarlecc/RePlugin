@@ -73,25 +73,25 @@ var SAR = SAR || {};
 	     * @param bool     {Boolean} optional if true then the achievement has been awarded
 	    */
 		achievementSwitch: function (global, name, desc, switchID, reward, icon, bool) {
-			var achieve = {			
-		    name:         name,
-			description:  desc,
-			gameSwitchID: switchID,
-			limit:        true,
-			reward:       reward,
-			icon:         icon,
-            bool:         typeof bool === "boolean" ? bool : false,
-            progress:     0,
-            global:       global
-          };
-          if (global === 1){
-          	_AchievementListGlob.push(achieve);
-          } else {
-            _AchievementList.push(achieve);
-          }
+		    var achieve = {			
+		        name:         name,
+		        description:  desc,
+		        gameSwitchID: switchID,
+		        limit:        true,
+		        reward:       reward,
+		        icon:         icon,
+                        bool:         typeof bool === "boolean" ? bool : false,
+                        progress:     0,
+                        global:       global
+                    };
+                   if (global === 1){
+          	      _AchievementListGlob.push(achieve);
+                   } else {
+                     _AchievementList.push(achieve);
+                   }
 		},
 		
-		/**
+	     /**
 	     * create an achievement tied to a $gameVariables
 	     * @method achievementVariable
 	     * @param global     {Number}  any number for non global 1 for global
@@ -103,23 +103,23 @@ var SAR = SAR || {};
 	     * @param icon       {Number}  number of the icon in the icon list
 	     * @param bool       {Boolean} optional if true then the achievement has been awarded
 	    */
-        achievementVariable: function (global, name, desc, variableID, limit, reward, icon, bool) {
-			var achieve = {			
-		    name:           name,
+               achievementVariable: function (global, name, desc, variableID, limit, reward, icon, bool) {
+		    var achieve = {			
+		        name:           name,
 			description:    desc,
 			gameVariableID: variableID,
 			limit:          typeof limit === "number" ? limit : 1,
 			reward:         reward,
 			icon:           icon,
-            bool:           typeof bool === "boolean" ? bool : false,
-            progress:       0,
-            global:         global
-          };
-          if (global === 1) {
-            _AchievementListGlob.push(achieve);
-          } else {
-          	_AchievementList.push(achieve);
-          }
+                        bool:           typeof bool === "boolean" ? bool : false,
+                        progress:       0,
+                        global:         global
+                    };
+                    if (global === 1) {
+                       _AchievementListGlob.push(achieve);
+                    } else {
+          	      _AchievementList.push(achieve);
+                    }
 		},
 		
 		 /**
@@ -129,13 +129,13 @@ var SAR = SAR || {};
 		  * @return {Boolean} true 
 		  */
 		  sealIt: function (global) {
-		  	if (global === true) {
-		  		Object.seal(_AchievementListGlob);
-		  		return true;
-		  	} else {
-		    	Object.seal(_AchievementList);
-		    	return true;
-		    }
+		       if (global === true) {
+		  	   Object.seal(_AchievementListGlob);
+		  	   return true;
+		       } else {
+		    	   Object.seal(_AchievementList);
+		    	   return true;
+		       }
 		  },
 		  
 		  /**
@@ -162,9 +162,9 @@ var SAR = SAR || {};
 		 */
 		   getSize: function (global) {
 		   	if (global === true){
-		   		return _AchievementListGlob.length;
+		   	    return _AchievementListGlob.length;
 		   	} else {
-		   		return _AchievementList.length;
+		   	    return _AchievementList.length;
 		   	}
 		   },
 		  
@@ -176,9 +176,9 @@ var SAR = SAR || {};
 		   */
 		   getAchieves: function (global) {
 		   	if (global === true){
-		   		return _AchievementListGlob;
+		   	   return _AchievementListGlob;
 		   	} else {
-		   		return _AchievementList;
+		   	   return _AchievementList;
 		   	}
 		   },
 		   
@@ -210,15 +210,15 @@ var SAR = SAR || {};
 		    */
 		   getProperty: function (index, property) {
 		   	try {
-		   		if (this.allAchieves()[index] === undefined) {
-		   			throw new Error("index " + index + " is not an index for achievements.")
-                } else if (this.allAchieves()[index][property] === undefined) {
-                	if (property !== 'gameSwitchID' && property !== 'gameVariableID') { 
-		   		        throw new Error("No such property '" + property + "' for achievements."); 
-		   		    }
-		   		}
-		   		return this.allAchieves()[index][property];
-		    } catch (e) {
+		   	    if (this.allAchieves()[index] === undefined) {
+		   		throw new Error("index " + index + " is not an index for achievements.")
+                            } else if (this.allAchieves()[index][property] === undefined) {
+                	              if (property !== 'gameSwitchID' && property !== 'gameVariableID') { 
+		   		          throw new Error("No such property '" + property + "' for achievements."); 
+		   		      }
+		   	    }
+		   	        return this.allAchieves()[index][property];
+		        } catch (e) {
 		   		SceneManager.catchException(e);
 		   	}
 		   },
@@ -247,10 +247,10 @@ var SAR = SAR || {};
 		    */
 		   changeValue: function (global, i, value) {
 		   	if (global === true){
-		   		_AchievementListGlob[i].bool = value;
-		   		return _AchievementListGlob[i].bool;
+		   	    _AchievementListGlob[i].bool = value;
+		   	    return _AchievementListGlob[i].bool;
 		   	} else {
-		   		_AchievementList[i].bool = value;
+		   	    _AchievementList[i].bool = value;
 		   	    return _AchievementList[i].bool;
 		   	}
 		   },
@@ -267,13 +267,13 @@ var SAR = SAR || {};
 		   	var lengthG = _AchievementListGlob.length;
 		   	var lengthN = _AchievementList.length;
 		   	if (global === true){
-		   		for(i = 0; i < lengthG; i++){
-		   			SAR.changeValue(global, i, value);
+		   	    for (i = 0; i < lengthG; i++) {
+		   		this.changeValue(global, i, value);
 		   		}
 		   	} else {
-		   		for(i = 0; i < lengthN; i++){
-		   			SAR.changeValue(global, i, value);
-		   		}
+		   	   for (i = 0; i < lengthN; i++) {
+		   	       this.changeValue(global, i, value);
+		   	   }
 		   	}
 		   },
 		   
@@ -289,16 +289,16 @@ var SAR = SAR || {};
 		   checkProgress: function () {
 		   	var i = 0;
 		   	var size = this.allSize();
-		   		for (i = 0; i < size; i++){
-		   	  		if (!this.getProperty(i, 'bool')){
-		   		 		if (this.getProperty(i, 'limit') === true){
-		  	 				_updateSwitchAchieve(i);
-		 	  	 		} else if (typeof this.getProperty(i, 'limit') === 'number'){
-			   				_updateVariableAchieve(i);
-		 	  	 		}
-		 	  	 		continue;
-			  	 	}
-		 	  	}
+		   	for (i = 0; i < size; i++) {
+		   	    if (!this.getProperty(i, 'bool')){
+		   		if (this.getProperty(i, 'limit') === true){
+		  	 	    _updateSwitchAchieve(i);
+		 	  	 } else if (typeof this.getProperty(i, 'limit') === 'number'){
+			   		    _updateVariableAchieve(i);
+		 	  	 }
+		 	  	   continue;
+			     }
+		 	}
 		   },
 		   
 		   /**
@@ -310,84 +310,84 @@ var SAR = SAR || {};
 		    */
 		   loadAchieves: function (global, arg) {
 		   	if (global === true){
-		   		_AchievementListGlob = arg;
-		   		_updateValues();
+		   	    _AchievementListGlob = arg;
+		   	    _updateValues();
 		   	} else {
-		   		_AchievementList = arg;
+		   	    _AchievementList = arg;
 		   	}
 		   }
 		   
 		};
 
 		  var _updateSwitchAchieve = function (arg) {
-		  	if ($.achievements.getProperty(arg, 'global') !== 0){
-		  		if ($gameSwitches.value($.achievements.getProperty(arg, 'gameSwitchID')) === $.achievements.getProperty(arg, 'limit')){
-		 	  		$.achievements.changeValue(true, arg, true);
-		 	  		_AchievementListGlob[arg].progress = 1;
-		 	  		_popup(arg);
-		 	  	}
+		  	if (this.getProperty(arg, 'global') !== 0){
+		  	    if ($gameSwitches.value(this.getProperty(arg, 'gameSwitchID')) === this.getProperty(arg, 'limit')){
+		 	  	this.changeValue(true, arg, true);
+		 	  	_AchievementListGlob[arg].progress = 1;
+		 	  	_popup(arg);
+		 	    }
 		  	} else {
-		  		if ($gameSwitches.value($.achievements.getProperty(arg, 'gameSwitchID')) === $.achievements.getProperty(arg, 'limit')){
-		  			_popup(arg);
-		  			arg -= $.achievements.getSize(true);
-		 	  		this.changeValue(false, arg, true);
-		 	  		_AchievementList[arg].progress = 1;
-		 	  	}
+		  	    if ($gameSwitches.value(this.getProperty(arg, 'gameSwitchID')) === this.getProperty(arg, 'limit')){
+		  		_popup(arg);
+		  		arg -= this.getSize(true);
+		 	  	this.changeValue(false, arg, true);
+		 	  	_AchievementList[arg].progress = 1;
+		 	    }
 		  	}
 		   };
 
 		  var _updateVariableAchieve = function (arg) {
 		  	var num = 0;
 		  	if ($.achievements.getProperty(arg, 'global') !== 0){
-		  		if ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) >= $.achievements.getProperty(arg, 'limit')){
-			   		$.achievements.changeValue(true, arg, true);
-			   		_AchievementListGlob[arg].progress = 1;
-			   		_popup(arg);
-		 	  	} else {
-		 	  		num = ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) / $.achievements.getProperty(arg, 'limit'));
-		 	  		_AchievementListGlob[arg].progress = num;
-		 	  	}
+		  	   if ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) >= $.achievements.getProperty(arg, 'limit')){
+			       $.achievements.changeValue(true, arg, true);
+			       _AchievementListGlob[arg].progress = 1;
+			       _popup(arg);
+		 	    } else {
+		 	  	num = ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) / $.achievements.getProperty(arg, 'limit'));
+		 	  	_AchievementListGlob[arg].progress = num;
+		 	    }
 		  	} else {
-		  		if ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) >= $.achievements.getProperty(arg, 'limit')){
-		  			_popup(arg);
-		  			arg -= $.achievements.getSize(true);
-			   		$.achievements.changeValue(false, arg, true);
-			   		_AchievementList[arg].progress = 1;
-		 	  	} else {
-		 	  		num = ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) / $.achievements.getProperty(arg, 'limit'));
-		 	  		arg -= $.achievements.getSize(true);
-		 	  		_AchievementList[arg].progress = num;
-		 	  	}
+		  	    if ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) >= $.achievements.getProperty(arg, 'limit')){
+		  		_popup(arg);
+		  		arg -= $.achievements.getSize(true);
+			   	$.achievements.changeValue(false, arg, true);
+			   	_AchievementList[arg].progress = 1;
+		 	    } else {
+		 	  	num = ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) / $.achievements.getProperty(arg, 'limit'));
+		 	  	arg -= $.achievements.getSize(true);
+		 	  	_AchievementList[arg].progress = num;
+		 	    }
 		  	}	
 		   };
 		   
 		   var _popup = function (arg) {
-		   	    if (SAR.Popup) {
-			   	SAR.Popup.setIcon($.achievements.getProperty(arg, 'icon'));
-		 	    SAR.Popup.add("" + $.achievements.getProperty(arg, 'name') + " achievement complete!");
-		 	    }
+		       if (SAR.Popup) {
+			   SAR.Popup.setIcon($.achievements.getProperty(arg, 'icon'));
+		 	   SAR.Popup.add("" + $.achievements.getProperty(arg, 'name') + " achievement complete!");
+		       }
 		   };
 		   
 		   var _updateValues = function () {
 		   	var i = 0;
 		   	var lengthG = _AchievementListGlob.length;
 		   	for (i = 0; i < lengthG; i++){
-		   		if (_AchievementListGlob[i].limit === true){
-		   			if (_AchievementListGlob.bool){
-		   				$gameSwitches.setValue(_AchievementListGlob[i].gameSwitchID, true);
-		   			} else {
-		   				continue;
-		   			}
-		   		} else if (typeof _AchievementListGlob[i].limit === 'number'){
-		   			if (_AchievementListGlob[i].bool === true){
-		   				$gameVariables.setValue(_AchievementListGlob[i].gameVariableID,
-		   					_AchievementListGlob[i].limit);
-		   			} else {
-		   				$gameVariables.setValue(_AchievementListGlob[i].gameVariableID,
-		   					_AchievementListGlob[i].progress);
-		   			}
-		   		}
-		   	 }
+		   	    if (_AchievementListGlob[i].limit === true){
+		   		if (_AchievementListGlob.bool){
+		   		    $gameSwitches.setValue(_AchievementListGlob[i].gameSwitchID, true);
+		   	      } else {
+		   		  continue;
+		   	      }
+		   	    } else if (typeof _AchievementListGlob[i].limit === 'number'){
+		   		      if (_AchievementListGlob[i].bool === true){
+		   		         $gameVariables.setValue(_AchievementListGlob[i].gameVariableID,
+		   		         _AchievementListGlob[i].limit);
+		   		      } else {
+		   		         $gameVariables.setValue(_AchievementListGlob[i].gameVariableID,
+		   		         _AchievementListGlob[i].progress);
+		   		      }
+		   	    }
+		   	}
 		   };   
 	};
 
@@ -399,8 +399,8 @@ var SAR = SAR || {};
 	      		DataManager_createAchieves.call(this);
 	      		SAR.initAchieve();
 	      		if (StorageManager.exists(21)){
-	      			this.loadAchievesWithoutRescue(21);
-	      			$gameSwitches.setValue(anyGlobalAchieves, true);
+	      		   this.loadAchievesWithoutRescue(21);
+	      		   $gameSwitches.setValue(anyGlobalAchieves, true);
 	      		}
 	      	};
 	      	
