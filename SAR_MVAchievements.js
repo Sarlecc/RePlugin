@@ -320,17 +320,17 @@ var SAR = SAR || {};
 		};
 
 		  var _updateSwitchAchieve = function (arg) {
-		  	if (this.getProperty(arg, 'global') !== 0){
-		  	    if ($gameSwitches.value(this.getProperty(arg, 'gameSwitchID')) === this.getProperty(arg, 'limit')){
-		 	  	this.changeValue(true, arg, true);
+		  	if ($.achievements.getProperty(arg, 'global') !== 0){
+		  	    if ($gameSwitches.value($.achievements.getProperty(arg, 'gameSwitchID')) === $.achievements.getProperty(arg, 'limit')){
+		 	  	$.achievements.changeValue(true, arg, true);
 		 	  	_AchievementListGlob[arg].progress = 1;
 		 	  	_popup(arg);
 		 	    }
 		  	} else {
-		  	    if ($gameSwitches.value(this.getProperty(arg, 'gameSwitchID')) === this.getProperty(arg, 'limit')){
+		  	    if ($gameSwitches.value($.achievements.getProperty(arg, 'gameSwitchID')) === $.achievements.getProperty(arg, 'limit')){
 		  		_popup(arg);
-		  		arg -= this.getSize(true);
-		 	  	this.changeValue(false, arg, true);
+		  		arg -= $.achievements.getSize(true);
+		 	  	$.achievements.changeValue(false, arg, true);
 		 	  	_AchievementList[arg].progress = 1;
 		 	    }
 		  	}
