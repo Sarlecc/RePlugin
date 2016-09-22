@@ -28,8 +28,7 @@
 * icon = number
 * bool = optional true or false (false is default)
 * 
-* to see the rest of the functions you have access too see MVachievementWiki.txt
-*
+* UPDATE 1.1.0 changed the reward variable to be a common event id
 * 
 * @param anyGlobalAchieves?
 * @desc this is an id for a $gameSwitch which gets set to true when there is a global achievement file.
@@ -68,7 +67,7 @@ var SAR = SAR || {};
 	     * @param name     {String}  name of the achievement
 	     * @param desc     {String}  description of the achievement
 	     * @param switchID {Number}  id for a $gameSwitches
-	     * @param reward   {Number}  number value that can be used in a common event/plugin
+	     * @param reward   {Number}  number value common event id
 	     * @param icon     {Number}  number of the icon in the icon list
 	     * @param bool     {Boolean} optional if true then the achievement has been awarded
 	    */
@@ -99,7 +98,7 @@ var SAR = SAR || {};
 	     * @param desc       {String}  description of the achievement
 	     * @param variableID {Number}  id for a $gameVariables
 	     * @param limit      {Number}  number of tasks that must happen before you get the achievement
-	     * @param reward     {Number}  number value that can be used in a common event/plugin
+	     * @param reward     {Number}  number value common event id
 	     * @param icon       {Number}  number of the icon in the icon list
 	     * @param bool       {Boolean} optional if true then the achievement has been awarded
 	    */
@@ -321,43 +320,47 @@ var SAR = SAR || {};
 
 		  var _updateSwitchAchieve = function (arg) {
 		  	if ($.achievements.getProperty(arg, 'global') !== 0){
-		  	    if ($gameSwitches.value($.achievements.getProperty(arg, 'gameSwitchID')) === $.achievements.getProperty(arg, 'limit')){
-		 	  	$.achievements.changeValue(true, arg, true);
-		 	  	_AchievementListGlob[arg].progress = 1;
-		 	  	_popup(arg);
-		 	    }
+		  		if ($gameSwitches.value($.achievements.getProperty(arg, 'gameSwitchID')) === $.achievements.getProperty(arg, 'limit')){
+		 	  		$.achievements.changeValue(true, arg, true);
+		 	  		_AchievementListGlob[arg].progress = 1;
+		 	  		$gameTemp.reserveCommonEvent(_AchievementListGlob[arg].reward);
+		 	  		_popup(arg);
+		 	  	}
 		  	} else {
-		  	    if ($gameSwitches.value($.achievements.getProperty(arg, 'gameSwitchID')) === $.achievements.getProperty(arg, 'limit')){
-		  		_popup(arg);
-		  		arg -= $.achievements.getSize(true);
-		 	  	$.achievements.changeValue(false, arg, true);
-		 	  	_AchievementList[arg].progress = 1;
-		 	    }
+		  		if ($gameSwitches.value($.achievements.getProperty(arg, 'gameSwitchID')) === $.achievements.getProperty(arg, 'limit')){
+		  			_popup(arg);
+		  			arg -= $.achievements.getSize(true);
+		 	  		this.changeValue(false, arg, true);
+		 	  		$gameTemp.reserveCommonEvent(_AchievementList[arg].reward);
+		 	  		_AchievementList[arg].progress = 1;
+		 	  	}
 		  	}
 		   };
 
 		  var _updateVariableAchieve = function (arg) {
 		  	var num = 0;
 		  	if ($.achievements.getProperty(arg, 'global') !== 0){
-		  	   if ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) >= $.achievements.getProperty(arg, 'limit')){
-			       $.achievements.changeValue(true, arg, true);
-			       _AchievementListGlob[arg].progress = 1;
-			       _popup(arg);
-		 	    } else {
-		 	  	num = ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) / $.achievements.getProperty(arg, 'limit'));
-		 	  	_AchievementListGlob[arg].progress = num;
-		 	    }
+		  		if ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) >= $.achievements.getProperty(arg, 'limit')){
+			   		$.achievements.changeValue(true, arg, true);
+			   		_AchievementListGlob[arg].progress = 1;
+			   		$gameTemp.reserveCommonEvent(_AchievementListGlob[arg].reward);
+			   		_popup(arg);
+		 	  	} else {
+		 	  		num = ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) / $.achievements.getProperty(arg, 'limit'));
+		 	  		_AchievementListGlob[arg].progress = num;
+		 	  	}
 		  	} else {
-		  	    if ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) >= $.achievements.getProperty(arg, 'limit')){
-		  		_popup(arg);
-		  		arg -= $.achievements.getSize(true);
-			   	$.achievements.changeValue(false, arg, true);
-			   	_AchievementList[arg].progress = 1;
-		 	    } else {
-		 	  	num = ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) / $.achievements.getProperty(arg, 'limit'));
-		 	  	arg -= $.achievements.getSize(true);
-		 	  	_AchievementList[arg].progress = num;
-		 	    }
+		  		if ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) >= $.achievements.getProperty(arg, 'limit')){
+		  			_popup(arg);
+		  			arg -= $.achievements.getSize(true);
+			   		$.achievements.changeValue(false, arg, true);
+			   		$gameTemp.reserveCommonEvent(_AchievementList[arg].reward);
+			   		_AchievementList[arg].progress = 1;
+		 	  	} else {
+		 	  		num = ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) / $.achievements.getProperty(arg, 'limit'));
+		 	  		arg -= $.achievements.getSize(true);
+		 	  		_AchievementList[arg].progress = num;
+		 	  	}
 		  	}	
 		   };
 		   
