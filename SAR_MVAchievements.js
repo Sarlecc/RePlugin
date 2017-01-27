@@ -4,10 +4,12 @@
 *
 *
 * @help
+* 
 * Copyright (c) 2016, Sarlecc (Mythical Games)
 * Permission to use, copy, modify, and/or distribute this software for the purposes defined
-* here after: RPGmaker MV non-commercial game are hereby granted provided that the
-* above copyright notice  and this permission notice appear in all copies.
+* here after: RPGmaker MV non-commercial game, RPGmaker MV commercial game are hereby granted 
+* provided that the above copyright notice and license number and this permission notice 
+* appear in all copies.
 * 
 * SAR.achievements.achievementSwitch(global, name, description, gameSwitchID, reward, icon, bool)
 * global = number 1 or 0
@@ -28,9 +30,13 @@
 * icon = number
 * bool = optional true or false (false is default)
 * 
+* to see the rest of the functions you have access too see the Manual
+*
 * UPDATE 1.1.0 changed the reward variable to be a common event id
+* UPDATE 1.2.0 Fixed global achieves not being so global. Fixed anyGlobalAchieves switch now the id you use 
+* will work for it.
 * 
-* @param anyGlobalAchieves?
+* @param anyGlobalAchieves
 * @desc this is an id for a $gameSwitch which gets set to true when there is a global achievement file.
 * @default 5
 * 
@@ -72,25 +78,25 @@ var SAR = SAR || {};
 	     * @param bool     {Boolean} optional if true then the achievement has been awarded
 	    */
 		achievementSwitch: function (global, name, desc, switchID, reward, icon, bool) {
-		    var achieve = {			
-		        name:         name,
-		        description:  desc,
-		        gameSwitchID: switchID,
-		        limit:        true,
-		        reward:       reward,
-		        icon:         icon,
-                        bool:         typeof bool === "boolean" ? bool : false,
-                        progress:     0,
-                        global:       global
-                    };
-                   if (global === 1){
-          	      _AchievementListGlob.push(achieve);
-                   } else {
-                     _AchievementList.push(achieve);
-                   }
+			var achieve = {			
+		    name:         name,
+			description:  desc,
+			gameSwitchID: switchID,
+			limit:        true,
+			reward:       reward,
+			icon:         icon,
+            bool:         typeof bool === "boolean" ? bool : false,
+            progress:     0,
+            global:       global
+          };
+          if (global === 1){
+          	_AchievementListGlob.push(achieve);
+          } else {
+            _AchievementList.push(achieve);
+          }
 		},
 		
-	     /**
+		/**
 	     * create an achievement tied to a $gameVariables
 	     * @method achievementVariable
 	     * @param global     {Number}  any number for non global 1 for global
@@ -98,27 +104,27 @@ var SAR = SAR || {};
 	     * @param desc       {String}  description of the achievement
 	     * @param variableID {Number}  id for a $gameVariables
 	     * @param limit      {Number}  number of tasks that must happen before you get the achievement
-	     * @param reward     {Number}  number value common event id
+	     * @param reward     {Number}  common event id
 	     * @param icon       {Number}  number of the icon in the icon list
 	     * @param bool       {Boolean} optional if true then the achievement has been awarded
 	    */
-               achievementVariable: function (global, name, desc, variableID, limit, reward, icon, bool) {
-		    var achieve = {			
-		        name:           name,
+        achievementVariable: function (global, name, desc, variableID, limit, reward, icon, bool) {
+			var achieve = {			
+		    name:           name,
 			description:    desc,
 			gameVariableID: variableID,
 			limit:          typeof limit === "number" ? limit : 1,
 			reward:         reward,
 			icon:           icon,
-                        bool:           typeof bool === "boolean" ? bool : false,
-                        progress:       0,
-                        global:         global
-                    };
-                    if (global === 1) {
-                       _AchievementListGlob.push(achieve);
-                    } else {
-          	      _AchievementList.push(achieve);
-                    }
+            bool:           typeof bool === "boolean" ? bool : false,
+            progress:       0,
+            global:         global
+          };
+          if (global === 1) {
+            _AchievementListGlob.push(achieve);
+          } else {
+          	_AchievementList.push(achieve);
+          }
 		},
 		
 		 /**
@@ -128,13 +134,13 @@ var SAR = SAR || {};
 		  * @return {Boolean} true 
 		  */
 		  sealIt: function (global) {
-		       if (global === true) {
-		  	   Object.seal(_AchievementListGlob);
-		  	   return true;
-		       } else {
-		    	   Object.seal(_AchievementList);
-		    	   return true;
-		       }
+		  	if (global === true) {
+		  		Object.seal(_AchievementListGlob);
+		  		return true;
+		  	} else {
+		    	Object.seal(_AchievementList);
+		    	return true;
+		    }
 		  },
 		  
 		  /**
@@ -161,9 +167,9 @@ var SAR = SAR || {};
 		 */
 		   getSize: function (global) {
 		   	if (global === true){
-		   	    return _AchievementListGlob.length;
+		   		return _AchievementListGlob.length;
 		   	} else {
-		   	    return _AchievementList.length;
+		   		return _AchievementList.length;
 		   	}
 		   },
 		  
@@ -175,9 +181,9 @@ var SAR = SAR || {};
 		   */
 		   getAchieves: function (global) {
 		   	if (global === true){
-		   	   return _AchievementListGlob;
+		   		return _AchievementListGlob;
 		   	} else {
-		   	   return _AchievementList;
+		   		return _AchievementList;
 		   	}
 		   },
 		   
@@ -209,15 +215,15 @@ var SAR = SAR || {};
 		    */
 		   getProperty: function (index, property) {
 		   	try {
-		   	    if (this.allAchieves()[index] === undefined) {
-		   		throw new Error("index " + index + " is not an index for achievements.")
-                            } else if (this.allAchieves()[index][property] === undefined) {
-                	              if (property !== 'gameSwitchID' && property !== 'gameVariableID') { 
-		   		          throw new Error("No such property '" + property + "' for achievements."); 
-		   		      }
-		   	    }
-		   	        return this.allAchieves()[index][property];
-		        } catch (e) {
+		   		if (this.allAchieves()[index] === undefined) {
+		   			throw new Error("index " + index + " is not an index for achievements.")
+                } else if (this.allAchieves()[index][property] === undefined) {
+                	if (property !== 'gameSwitchID' && property !== 'gameVariableID') { 
+		   		        throw new Error("No such property '" + property + "' for achievements."); 
+		   		    }
+		   		}
+		   		return this.allAchieves()[index][property];
+		    } catch (e) {
 		   		SceneManager.catchException(e);
 		   	}
 		   },
@@ -246,10 +252,10 @@ var SAR = SAR || {};
 		    */
 		   changeValue: function (global, i, value) {
 		   	if (global === true){
-		   	    _AchievementListGlob[i].bool = value;
-		   	    return _AchievementListGlob[i].bool;
+		   		_AchievementListGlob[i].bool = value;
+		   		return _AchievementListGlob[i].bool;
 		   	} else {
-		   	    _AchievementList[i].bool = value;
+		   		_AchievementList[i].bool = value;
 		   	    return _AchievementList[i].bool;
 		   	}
 		   },
@@ -266,13 +272,13 @@ var SAR = SAR || {};
 		   	var lengthG = _AchievementListGlob.length;
 		   	var lengthN = _AchievementList.length;
 		   	if (global === true){
-		   	    for (i = 0; i < lengthG; i++) {
-		   		this.changeValue(global, i, value);
+		   		for(i = 0; i < lengthG; i++){
+		   			SAR.changeValue(global, i, value);
 		   		}
 		   	} else {
-		   	   for (i = 0; i < lengthN; i++) {
-		   	       this.changeValue(global, i, value);
-		   	   }
+		   		for(i = 0; i < lengthN; i++){
+		   			SAR.changeValue(global, i, value);
+		   		}
 		   	}
 		   },
 		   
@@ -288,16 +294,16 @@ var SAR = SAR || {};
 		   checkProgress: function () {
 		   	var i = 0;
 		   	var size = this.allSize();
-		   	for (i = 0; i < size; i++) {
-		   	    if (!this.getProperty(i, 'bool')){
-		   		if (this.getProperty(i, 'limit') === true){
-		  	 	    _updateSwitchAchieve(i);
-		 	  	 } else if (typeof this.getProperty(i, 'limit') === 'number'){
-			   		    _updateVariableAchieve(i);
-		 	  	 }
-		 	  	   continue;
-			     }
-		 	}
+		   		for (i = 0; i < size; i++){
+		   	  		if (!this.getProperty(i, 'bool')){
+		   		 		if (this.getProperty(i, 'limit') === true){
+		  	 				_updateSwitchAchieve(i);
+		 	  	 		} else if (typeof this.getProperty(i, 'limit') === 'number'){
+			   				_updateVariableAchieve(i);
+		 	  	 		}
+		 	  	 		continue;
+			  	 	}
+		 	  	}
 		   },
 		   
 		   /**
@@ -309,10 +315,10 @@ var SAR = SAR || {};
 		    */
 		   loadAchieves: function (global, arg) {
 		   	if (global === true){
-		   	    _AchievementListGlob = arg;
-		   	    _updateValues();
+		   		_AchievementListGlob = arg;
+		   		_updateValues();
 		   	} else {
-		   	    _AchievementList = arg;
+		   		_AchievementList = arg;
 		   	}
 		   }
 		   
@@ -325,6 +331,7 @@ var SAR = SAR || {};
 		 	  		_AchievementListGlob[arg].progress = 1;
 		 	  		$gameTemp.reserveCommonEvent(_AchievementListGlob[arg].reward);
 		 	  		_popup(arg);
+		 	  		DataManager.saveAchievesWithoutRescue(21);
 		 	  	}
 		  	} else {
 		  		if ($gameSwitches.value($.achievements.getProperty(arg, 'gameSwitchID')) === $.achievements.getProperty(arg, 'limit')){
@@ -345,9 +352,11 @@ var SAR = SAR || {};
 			   		_AchievementListGlob[arg].progress = 1;
 			   		$gameTemp.reserveCommonEvent(_AchievementListGlob[arg].reward);
 			   		_popup(arg);
+			   		DataManager.saveAchievesWithoutRescue(21);
 		 	  	} else {
 		 	  		num = ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) / $.achievements.getProperty(arg, 'limit'));
 		 	  		_AchievementListGlob[arg].progress = num;
+		 	  		DataManager.saveAchievesWithoutRescue(21);
 		 	  	}
 		  	} else {
 		  		if ($gameVariables.value($.achievements.getProperty(arg, 'gameVariableID')) >= $.achievements.getProperty(arg, 'limit')){
@@ -365,32 +374,32 @@ var SAR = SAR || {};
 		   };
 		   
 		   var _popup = function (arg) {
-		       if (SAR.Popup) {
-			   SAR.Popup.setIcon($.achievements.getProperty(arg, 'icon'));
-		 	   SAR.Popup.add("" + $.achievements.getProperty(arg, 'name') + " achievement complete!");
-		       }
+		   	    if (SAR.Popup) {
+			   	SAR.Popup.setIcon($.achievements.getProperty(arg, 'icon'));
+		 	    SAR.Popup.add("" + $.achievements.getProperty(arg, 'name') + "achievement complete!");
+		 	    }
 		   };
 		   
 		   var _updateValues = function () {
 		   	var i = 0;
 		   	var lengthG = _AchievementListGlob.length;
 		   	for (i = 0; i < lengthG; i++){
-		   	    if (_AchievementListGlob[i].limit === true){
-		   		if (_AchievementListGlob.bool){
-		   		    $gameSwitches.setValue(_AchievementListGlob[i].gameSwitchID, true);
-		   	      } else {
-		   		  continue;
-		   	      }
-		   	    } else if (typeof _AchievementListGlob[i].limit === 'number'){
-		   		      if (_AchievementListGlob[i].bool === true){
-		   		         $gameVariables.setValue(_AchievementListGlob[i].gameVariableID,
-		   		         _AchievementListGlob[i].limit);
-		   		      } else {
-		   		         $gameVariables.setValue(_AchievementListGlob[i].gameVariableID,
-		   		         _AchievementListGlob[i].progress);
-		   		      }
-		   	    }
-		   	}
+		   		if (_AchievementListGlob[i].limit === true){
+		   			if (_AchievementListGlob.bool){
+		   				$gameSwitches.setValue(_AchievementListGlob[i].gameSwitchID, true);
+		   			} else {
+		   				continue;
+		   			}
+		   		} else if (typeof _AchievementListGlob[i].limit === 'number'){
+		   			if (_AchievementListGlob[i].bool === true){
+		   				$gameVariables.setValue(_AchievementListGlob[i].gameVariableID,
+		   					_AchievementListGlob[i].limit);
+		   			} else {
+		   				$gameVariables.setValue(_AchievementListGlob[i].gameVariableID,
+		   					_AchievementListGlob[i].progress);
+		   			}
+		   		}
+		   	 }
 		   };   
 	};
 
@@ -402,8 +411,8 @@ var SAR = SAR || {};
 	      		DataManager_createAchieves.call(this);
 	      		SAR.initAchieve();
 	      		if (StorageManager.exists(21)){
-	      		   this.loadAchievesWithoutRescue(21);
-	      		   $gameSwitches.setValue(anyGlobalAchieves, true);
+	      			this.loadAchievesWithoutRescue(21);
+	      			$gameSwitches.setValue(anyGlobalAchieves, true);
 	      		}
 	      	};
 	      	
@@ -418,6 +427,8 @@ var SAR = SAR || {};
 	      	$.saveAchievesWithoutRescue = function (savefileId) {
 	      		var contents = {};
 	      		contents.achieves = SAR.achievements.getAchieves(true);
+	      		contents.variables = $gameVariables;
+	      		contents.switches = $gameSwitches;
 	      		var json = JsonEx.stringify(contents);
     			if (json.length >= 200000) {
         			console.warn('Save data too big!');
@@ -428,6 +439,8 @@ var SAR = SAR || {};
 	      	$.loadAchievesWithoutRescue = function (savefileId) {
 	      		var json = StorageManager.load(savefileId);
         		SAR.achievements.loadAchieves(true, JsonEx.parse(json).achieves);
+        		$gameVariables = JsonEx.parse(json).variables;
+        		$gameSwitches = JsonEx.parse(json).switches;
 	      	};
 	      	
 	      	var data_makeSaveContents = $.makeSaveContents;
@@ -476,16 +489,18 @@ var SAR = SAR || {};
     		
     		$.prototype.pluginCommand = function(command, args) {
        		_Game_Interpreter_pluginCommand.call(this, command, args);
-       		var _str = "";
+       		var _SARstr, _SARname = "";
        		if (command === "SarleccAchievementsSwitch"){
-       			_str = args[2].replace(/[\.*]/g, " ");
-       			_str = _str.replace(/\\n*/g, "\n");
-       			SAR.achievements.achievementSwitch(parseInt(args[0], 10), args[1], _str, parseInt(args[3], 10),
+       			_SARname = args[1].replace(/[\.*]/g, " ");
+       			_SARstr = args[2].replace(/[\.*]/g, " ");
+       			_SARstr = _SARstr.replace(/\\n*/g, "\n");
+       			SAR.achievements.achievementSwitch(parseInt(args[0], 10), _SARname, _SARstr, parseInt(args[3], 10),
        			                                   parseInt(args[4], 10), parseInt(args[5], 10));
        		} else if (command === "SarleccAchievementsVariable"){
-       			_str = args[2].replace(/[\.*]/g, " ");
-       			_str = _str.replace(/\\n*/g, "\n");
-       			SAR.achievements.achievementVariable(parseInt(args[0], 10), args[1], _str, parseInt(args[3], 10),
+       			_SARname = args[1].replace(/[\.*]/g, " ");
+       			_SARstr = args[2].replace(/[\.*]/g, " ");
+       			_SARstr = _SARstr.replace(/\\n*/g, "\n");
+       			SAR.achievements.achievementVariable(parseInt(args[0], 10), _SARname, _SARstr, parseInt(args[3], 10),
        			                                     parseInt(args[4], 10), parseInt(args[5], 10),
        			                                     parseInt(args[6], 10));
            }
