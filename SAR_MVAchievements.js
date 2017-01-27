@@ -7,7 +7,7 @@
 * 
 * Copyright (c) 2016, Sarlecc (Mythical Games)
 * Permission to use, copy, modify, and/or distribute this software for the purposes defined
-* here after: RPGmaker MV non-commercial game, RPGmaker MV commercial game are hereby granted 
+* here after: RPGmaker MV non-commercial game are hereby granted 
 * provided that the above copyright notice and license number and this permission notice 
 * appear in all copies.
 * 
