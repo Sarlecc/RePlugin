@@ -35,6 +35,7 @@
 * UPDATE 1.1.0 changed the reward variable to be a common event id
 * UPDATE 1.2.0 Fixed global achieves not being so global. Fixed anyGlobalAchieves switch now the id you use 
 * will work for it.
+* UPDATE 1.2.1 Fixed the normal achievements so they don't act global (hopefully)
 * 
 * @param anyGlobalAchieves
 * @desc this is an id for a $gameSwitch which gets set to true when there is a global achievement file.
@@ -320,7 +321,49 @@ var SAR = SAR || {};
 		   	} else {
 		   		_AchievementList = arg;
 		   	}
+		   },
+		   
+		   collectGlobalSwitchIDs: function () {
+		   	var tempA = [];
+		   	for (var i = 0; i < _AchievementListGlob.length; i++){
+		   		if (typeof _AchievementListGlob[i].gameSwitchID !== 'undefined') {
+		   		    tempA.push(_AchievementListGlob[i].gameSwitchID);
+		   		}
+		   	}
+		   	return tempA;
+		   },
+		   
+		   collectGlobalVariableIDs: function () {
+		   	var tempA = [];
+		   	for (var i = 0; i < _AchievementListGlob.length; i++){
+		   		if (typeof _AchievementListGlob[i].gameVariableID !== "undefined") {
+		   		tempA.push(_AchievementListGlob[i].gameVariableID);
+		   		}
+		   	}
+		   	return tempA;
+		   },
+		   
+		   keyValuesSwitches: function () {
+		   	var a = this.collectGlobalSwitchIDs();
+		   	var o = {'a': null};
+		   	var t = 0; 
+		   	for (var i = 0; i < a.length; i++){
+		   	   t = a[i];
+		   	   o[t] = $gameSwitches.value(a[i]);
 		   }
+		   return o;
+		   },
+		   
+		   keyValuesVariables: function () {
+		   	var a = this.collectGlobalVariableIDs();
+		   	var o = {'a': null}; 
+		   	var t = 0;
+		   	for (var i = 0; i < a.length; i++){
+		       t = a[i];
+		   	   o[t] = $gameVariables.value(a[i]);
+		   }
+		   return o;
+		   },
 		   
 		};
 
@@ -425,10 +468,12 @@ var SAR = SAR || {};
 	      	};
 	      	
 	      	$.saveAchievesWithoutRescue = function (savefileId) {
+	      		var variables = SAR.achievements.keyValuesVariables();
+	      		var switches = SAR.achievements.keyValuesSwitches(); 
 	      		var contents = {};
 	      		contents.achieves = SAR.achievements.getAchieves(true);
-	      		contents.variables = $gameVariables;
-	      		contents.switches = $gameSwitches;
+	      		contents.variables = variables;
+	      		contents.switches = switches;
 	      		var json = JsonEx.stringify(contents);
     			if (json.length >= 200000) {
         			console.warn('Save data too big!');
@@ -439,8 +484,18 @@ var SAR = SAR || {};
 	      	$.loadAchievesWithoutRescue = function (savefileId) {
 	      		var json = StorageManager.load(savefileId);
         		SAR.achievements.loadAchieves(true, JsonEx.parse(json).achieves);
-        		$gameVariables = JsonEx.parse(json).variables;
-        		$gameSwitches = JsonEx.parse(json).switches;
+        		var variables = JsonEx.parse(json).variables;
+        		var switches = JsonEx.parse(json).switches;
+        		for (var i in variables) {
+        			if (variables[i] !== null) {
+        			$gameVariables.setValue(i, variables[i]);
+        			}
+        		}
+        		for (var i in switches) {
+        			if (switches[i] !== null) {
+        				$gameSwitches.setValue(i, switches[i]);
+        			}
+        		}
 	      	};
 	      	
 	      	var data_makeSaveContents = $.makeSaveContents;
