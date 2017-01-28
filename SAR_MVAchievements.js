@@ -512,6 +512,7 @@ var SAR = SAR || {};
 	      		DataManager_extractSaveContents.call(this, contents);
 	      		var data = contents.achievements;
 	      		SAR.achievements.loadAchieves(false, data);
+			this.loadAchievesWithoutRescue(21);
 	      	};
 	      	
 	      })(DataManager);
